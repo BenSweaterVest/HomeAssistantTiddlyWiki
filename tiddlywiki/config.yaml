@@ -1,0 +1,34 @@
+name: TiddlyWiki
+version: "1.0.0"
+slug: tiddlywiki
+description: "TiddlyWiki personal wiki system with server-side saving"
+url: "https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+init: false
+startup: services
+boot: auto
+hassio_api: true
+hassio_role: default
+ports:
+  8080/tcp: 8080
+ports_description:
+  8080/tcp: "TiddlyWiki web interface"
+map:
+  - "share:rw"
+  - "backup:rw"
+options:
+  port: 8080
+  username: ""
+  password: ""
+  log_level: "info"
+schema:
+  port: "port"
+  username: "str?"
+  password: "password?"
+  log_level: "list(trace|debug|info|notice|warning|error|fatal)?"
+image: "ghcr.io/bensweetervest/{arch}-hassio-tiddlywiki"
