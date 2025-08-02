@@ -94,8 +94,8 @@ log_level: "info"
 ## Support
 
 For issues, feature requests, and contributions:
-- 🐛 [Report bugs](https://github.com/yourusername/hassio-tiddlywiki/issues)
-- 💡 [Request features](https://github.com/yourusername/hassio-tiddlywiki/issues)
+- 🐛 [Report bugs](https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/issues)
+- 💡 [Request features](https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/issues)
 - 🏠 [Home Assistant Community](https://community.home-assistant.io/)
 
 ## License
