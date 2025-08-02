@@ -31,4 +31,4 @@ schema:
   username: "str?"
   password: "password?"
   log_level: "list(trace|debug|info|notice|warning|error|fatal)?"
-image: "ghcr.io/{arch}-hassio-tiddlywiki"
+image: "ghcr.io/bensweetervest/{arch}-hassio-tiddlywiki"
