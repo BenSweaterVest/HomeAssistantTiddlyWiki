@@ -25,7 +25,7 @@ TiddlyWiki is a rich, interactive tool for manipulating complex data with struct
 ## Installation
 
 1. Navigate to the Home Assistant add-on store
-2. Add this repository: `https://github.com/yourusername/hassio-tiddlywiki`
+2. Add this repository: `https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki`
 3. Find and install the "TiddlyWiki" add-on
 4. Configure options (see below)
 5. Start the add-on
