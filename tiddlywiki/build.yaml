@@ -9,4 +9,3 @@ labels:
   org.opencontainers.image.description: "TiddlyWiki personal wiki system for Home Assistant"
   org.opencontainers.image.source: "https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki"
   org.opencontainers.image.licenses: "MIT"
-args: {}
