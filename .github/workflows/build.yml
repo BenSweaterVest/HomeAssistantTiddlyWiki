@@ -30,6 +30,6 @@ jobs:
         uses: home-assistant/builder@master
         with:
           args: |
-            --target /data/tiddlywiki \
+            --target tiddlywiki \
             --all \
             --docker-hub ${{ env.REGISTRY }}/bensweetervest

@@ -12,6 +12,10 @@ A Home Assistant add-on that runs TiddlyWiki as a web server, providing a person
 
 TiddlyWiki is a rich, interactive tool for manipulating complex data with structure that doesn't easily fit into conventional tools like spreadsheets or wordprocessors. This add-on runs TiddlyWiki in server mode, allowing multiple users to access and edit the wiki simultaneously with automatic saving.
 
+**Version:** 1.0.0
+**TiddlyWiki Version:** Latest stable (auto-updated on rebuild)
+**Base Image:** Home Assistant Alpine 3.20
+
 ## Features
 
 - ✅ **Server-side saving**: All changes automatically saved to disk
@@ -24,21 +28,35 @@ TiddlyWiki is a rich, interactive tool for manipulating complex data with struct
 
 ## Installation
 
-1. Navigate to the Home Assistant add-on store
-2. Add this repository: `https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki`
-3. Find and install the "TiddlyWiki" add-on
-4. Configure options (see below)
-5. Start the add-on
-6. Access via `http://homeassistant.local:8080`
+### Add the Repository
+
+1. In Home Assistant, navigate to **Settings** → **Add-ons** → **Add-on Store**
+2. Click the **⋮** menu (three dots) in the top right corner
+3. Select **Repositories**
+4. Add this repository URL: `https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki`
+5. Click **Add** then **Close**
+
+### Install the Add-on
+
+1. Find **TiddlyWiki** in the add-on list (refresh if needed)
+2. Click on it to open the add-on details
+3. Click **Install** (this may take a few minutes)
+4. Once installed, configure the add-on (see Configuration section below)
+5. Click **Start**
+6. Access your wiki at `http://homeassistant.local:8080` (or your configured port)
 
 ## Configuration
 
-```yaml
-port: 8080              # Port for the web interface
-username: ""            # Username (leave empty for no auth)
-password: ""            # Password (leave empty for no auth)
-log_level: "info"       # Log level: trace, debug, info, notice, warning, error, fatal
-```
+Add-on configuration is done through the Home Assistant UI. Go to the add-on page and click the **Configuration** tab.
+
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `port` | integer | `8080` | Port for the web interface |
+| `username` | string | `""` (empty) | Username for authentication (leave empty to disable) |
+| `password` | password | `""` (empty) | Password for authentication (leave empty to disable) |
+| `log_level` | list | `"info"` | Logging level: trace, debug, info, notice, warning, error, fatal |
 
 ### Example Configuration
 
@@ -67,12 +85,18 @@ log_level: "info"
 
 ## Data Persistence
 
-- Wiki data is stored in `/data/wiki/` within the add-on
+- Wiki data is stored in `/data/wiki/` within the add-on container
+- Includes:
+  - `tiddlywiki.info` - Wiki configuration
+  - `tiddlers/` - All your wiki pages (tiddlers)
 - Data persists through:
   - Add-on restarts
-  - Home Assistant restarts  
+  - Home Assistant restarts
   - Add-on updates
-- Integrates with Home Assistant's backup system
+- **Backup Integration:**
+  - Included in Home Assistant backups automatically
+  - Also accessible via `/share` and `/backup` directories (mapped in config)
+  - Manual backup: Copy files from Settings → System → Hardware → Storage
 
 ## Troubleshooting
 
@@ -91,12 +115,53 @@ log_level: "info"
 - Ensure adequate disk space is available
 - Restart the add-on if needed
 
+## Pre-installed Plugins
+
+This add-on comes pre-configured with useful TiddlyWiki plugins:
+
+- **tiddlywiki/tiddlyweb** - Server-side saving support
+- **tiddlywiki/filesystem** - File system integration
+- **tiddlywiki/highlight** - Syntax highlighting for code blocks
+- **tiddlywiki/markdown** - Markdown support in tiddlers
+- **tiddlywiki/codemirror** - Advanced code editor
+
+You can add more plugins through the TiddlyWiki interface or by modifying `/data/wiki/tiddlywiki.info`.
+
+## Advanced Usage
+
+### Accessing the Data Directory
+
+If you need direct access to your wiki files:
+
+1. Enable SSH or Terminal add-on in Home Assistant
+2. Navigate to: `/addon_data/[hash]_tiddlywiki/wiki/`
+3. Your tiddlers are in the `tiddlers/` subdirectory
+
+### Custom Plugins
+
+To install additional plugins:
+
+1. Access TiddlyWiki web interface
+2. Go to Control Panel → Plugins → "Get more plugins"
+3. Browse and install from the official plugin library
+4. Changes will be saved in your data directory
+
+### Changing the Port
+
+If port 8080 conflicts with another service:
+
+1. Go to add-on Configuration tab
+2. Change the `port` value (e.g., `8888`)
+3. Restart the add-on
+4. Access at the new port
+
 ## Support
 
 For issues, feature requests, and contributions:
 - 🐛 [Report bugs](https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/issues)
 - 💡 [Request features](https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/issues)
 - 🏠 [Home Assistant Community](https://community.home-assistant.io/)
+- 📖 [TiddlyWiki Documentation](https://tiddlywiki.com/)
 
 ## License
 
