@@ -1,5 +1,33 @@
 # How to Create v1.0.0 Release
 
+## ⚠️ IMPORTANT: Build Images First!
+
+**Before creating the release, you MUST build the Docker images.**
+
+Currently, your repository has NO `main` branch, which means:
+- ❌ GitHub Actions has never run
+- ❌ No Docker images have been built
+- ❌ Images don't exist in GHCR
+- ❌ Users will get 403 errors trying to install
+
+**See `TROUBLESHOOTING_403.md` for complete fix instructions.**
+
+## Quick Fix
+
+```bash
+# Create main branch from feature branch
+git checkout claude/review-previous-work-011CUuddWCWqDdX3EGaRui9T
+git checkout -b main
+git push -u origin main
+
+# Wait 5-10 minutes for build to complete
+# Monitor at: https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/actions
+
+# Then make packages public (see TROUBLESHOOTING_403.md)
+```
+
+---
+
 ## Current Status
 
 ✅ **Tag created locally**: v1.0.0
