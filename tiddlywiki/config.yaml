@@ -1,34 +1,47 @@
+# TiddlyWiki Home Assistant Add-on Configuration
 name: TiddlyWiki
 version: "1.0.0"
 slug: tiddlywiki
 description: "TiddlyWiki personal wiki system with server-side saving"
 url: "https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki"
+# Supported architectures
 arch:
   - armhf
   - armv7
   - aarch64
   - amd64
   - i386
+# Addon lifecycle configuration
 init: false
 startup: services
 boot: auto
+# Home Assistant API access
 hassio_api: true
 hassio_role: default
+# Web UI configuration - provides "Open Web UI" button in HA
+webui: "http://[HOST]:[PORT:8080]"
+# Watchdog enables automatic restart on crash
+watchdog: "tcp://[HOST]:[PORT:8080]"
+# Port configuration
 ports:
   8080/tcp: 8080
 ports_description:
   8080/tcp: "TiddlyWiki web interface"
+# Directory mappings for data persistence
 map:
   - "share:rw"
   - "backup:rw"
+# Default configuration options
 options:
   port: 8080
   username: ""
   password: ""
   log_level: "info"
+# Configuration schema with validation
 schema:
   port: "port"
   username: "str?"
   password: "password?"
   log_level: "list(trace|debug|info|notice|warning|error|fatal)?"
+# Docker image reference
 image: "ghcr.io/bensweetervest/{arch}-hassio-tiddlywiki"
