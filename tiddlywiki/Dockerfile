@@ -33,13 +33,11 @@ LABEL \
     io.hass.base.version="${BUILD_VERSION}" \
     io.hass.base.name="${BUILD_FROM}"
 
-# Health check - using curl to check if TiddlyWiki server is responding
-# Note: Uses default port 8080, but addon may be configured for different port
-# The healthcheck still validates that the process is running on default port
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8080/ || exit 1
+# Note: We rely on Home Assistant's watchdog (configured in config.yaml) instead of
+# Docker's HEALTHCHECK because watchdog is more robust and can handle dynamic port
+# configuration. The watchdog monitors the TCP connection on the configured port.
 
-# Expose port
+# Expose default port (can be changed via configuration)
 EXPOSE 8080
 
 # Start the service
