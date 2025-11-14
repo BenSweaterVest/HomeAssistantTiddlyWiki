@@ -14,6 +14,8 @@ TiddlyWiki is a powerful, flexible tool for organizing information. This add-on 
 
 ## Installation
 
+**⚠️ Note:** Docker images must be built and public before installation. See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) if you're the maintainer, or wait for the first release to be published.
+
 1. In Home Assistant, navigate to **Settings** → **Add-ons** → **Add-on Store**
 2. Click the **⋮** menu in the top right → **Repositories**
 3. Add this repository URL: `https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki`
@@ -21,6 +23,8 @@ TiddlyWiki is a powerful, flexible tool for organizing information. This add-on 
 5. Click **Install**
 6. Configure the add-on (see Configuration section)
 7. Click **Start**
+
+**Getting 403 errors?** See [TROUBLESHOOTING_403.md](TROUBLESHOOTING_403.md)
 
 ## Documentation
 
