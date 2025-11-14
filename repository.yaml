@@ -1,3 +1,4 @@
-name: "HomeAssistantTiddlyWiki"
+# Home Assistant Add-on Repository Configuration
+name: "TiddlyWiki Add-on Repository"
 url: "https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki"
 maintainer: "BenSweatervest <benjiman.blanchard@gmail.com>"

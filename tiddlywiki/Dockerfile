@@ -33,7 +33,9 @@ LABEL \
     io.hass.base.version="${BUILD_VERSION}" \
     io.hass.base.name="${BUILD_FROM}"
 
-# Health check - using curl instead of wget
+# Health check - using curl to check if TiddlyWiki server is responding
+# Note: Uses default port 8080, but addon may be configured for different port
+# The healthcheck still validates that the process is running on default port
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:8080/ || exit 1
 
