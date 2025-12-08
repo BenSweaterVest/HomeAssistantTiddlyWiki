@@ -164,7 +164,4 @@ sleep 1
 # Start TiddlyWiki with error handling
 # Note: exec replaces the shell process with TiddlyWiki for proper signal handling
 bashio::log.info "Executing: ${TIDDLYWIKI_CMD}"
-if ! exec ${TIDDLYWIKI_CMD}; then
-    bashio::log.error "TiddlyWiki failed to start"
-    exit 1
-fi
+exec ${TIDDLYWIKI_CMD}

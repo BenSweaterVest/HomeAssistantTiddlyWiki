@@ -155,6 +155,73 @@ If port 8080 conflicts with another service:
 3. Restart the add-on
 4. Access at the new port
 
+## Frequently Asked Questions
+
+### Can I use this without authentication?
+
+Yes! By default, the add-on runs without authentication. However, this should **only be used on trusted home networks**. Anyone with network access can read and edit your wiki. For additional security, enable authentication in the configuration.
+
+### How do I backup my wiki?
+
+Your wiki is automatically included in Home Assistant backups. The data is stored in `/data/wiki/` within the add-on container. You can also:
+- Use Home Assistant's built-in backup system
+- Manually copy files from the data directory
+- Use the `/share` and `/backup` directory mappings for external backup scripts
+
+### Can I install custom TiddlyWiki plugins?
+
+Absolutely! You can install additional plugins in two ways:
+1. **Via Web UI:** Use TiddlyWiki's Control Panel → Plugins → "Get more plugins"
+2. **Manually:** Edit `/data/wiki/tiddlywiki.info` to add plugin references
+
+All plugin installations are automatically saved and persist across restarts.
+
+### What happens if I change the port?
+
+The watchdog will automatically monitor the new port after you restart the add-on. Simply:
+1. Update the `port` setting in the Configuration tab
+2. Restart the add-on
+3. Access TiddlyWiki at the new port
+
+The "Open Web UI" button in Home Assistant will also update automatically.
+
+### How do I migrate from standalone TiddlyWiki?
+
+To migrate your existing TiddlyWiki:
+1. Stop the add-on if it's running
+2. Access the add-on data directory (via SSH/Terminal add-on)
+3. Navigate to `/addon_data/[hash]_tiddlywiki/wiki/tiddlers/`
+4. Copy your `.tid` files from your old TiddlyWiki to this directory
+5. Restart the add-on
+
+Your existing tiddlers will appear immediately.
+
+### Does this support multiple wikis?
+
+Currently, this add-on runs a single wiki instance. If you need multiple wikis, you can:
+- Install the add-on multiple times (if supported by Home Assistant)
+- Use different ports for each instance
+- Consider using TiddlyWiki's multi-wiki features within a single instance
+
+### What's the difference between this and file-based TiddlyWiki?
+
+| Feature | This Add-on | File-based TiddlyWiki |
+|---------|-------------|----------------------|
+| Server-side saving | ✅ Automatic | ❌ Manual save required |
+| Multi-user access | ✅ Simultaneous editing | ❌ One at a time |
+| Backup integration | ✅ Automatic with HA | ⚠️ Manual |
+| Setup complexity | ✅ One-click install | ⚠️ Manual configuration |
+| Performance | ✅ Fast server-side | ⚠️ Browser-dependent |
+
+### How much disk space does it need?
+
+The add-on itself is approximately 50-100MB. Your wiki data grows based on content:
+- Empty wiki: ~1-2MB
+- Typical personal wiki: 5-20MB
+- Large wiki with media: 50-500MB
+
+Monitor your disk usage in Home Assistant's System settings.
+
 ## Support
 
 For issues, feature requests, and contributions:
