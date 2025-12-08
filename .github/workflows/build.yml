@@ -1,6 +1,6 @@
 name: Build TiddlyWiki Add-on
 
-on:
+'on':
   push:
     branches: [main]
   workflow_dispatch:
