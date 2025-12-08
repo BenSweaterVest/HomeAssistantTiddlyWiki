@@ -1,6 +1,11 @@
 # TiddlyWiki Home Assistant Add-on
 
 [![Release][release-shield]][release] [![License][license-shield]](LICENSE) [![GitHub Activity][commits-shield]][commits] [![Project Maintenance][maintenance-shield]][maintainer]
+[![GitHub Release][release-shield]][release]
+[![License][license-shield]](LICENSE)
+[![GitHub Activity][commits-shield]][commits]
+[![Project Maintenance][maintenance-shield]][maintainer]
+[![GitHub Issues][issues-shield]][issues]
 
 A Home Assistant add-on that runs TiddlyWiki as a web server, providing a personal wiki system with automatic server-side saving.
 
@@ -11,6 +16,8 @@ A Home Assistant add-on that runs TiddlyWiki as a web server, providing a person
 [commits]: https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/commits/main
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2024?style=for-the-badge
 [maintainer]: https://github.com/BenSweaterVest
+[issues-shield]: https://img.shields.io/github/issues/BenSweaterVest/HomeAssistantTiddlyWiki?style=for-the-badge
+[issues]: https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/issues
 
 ## About
 
