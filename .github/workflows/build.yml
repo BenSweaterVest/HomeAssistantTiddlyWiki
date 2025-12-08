@@ -2,7 +2,7 @@ name: Build TiddlyWiki Add-on
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 env:
@@ -31,5 +31,5 @@ jobs:
         with:
           args: |
             --target tiddlywiki \
-            --all \
+            --amd64 --aarch64 \
             --docker-hub ${{ env.REGISTRY }}/bensweetervest
