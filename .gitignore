@@ -1,0 +1,40 @@
+# Ignore build artifacts
+*.log
+*.swp
+*.swo
+*~
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.sublime-*
+.project
+.settings/
+
+# Ignore test/local files
+test/
+.env
+.env.local
+*.local
+
+# Ignore backup files
+*.bak
+*.backup
+*.old
+
+# Ignore git tag file if created
+.git/refs/tags/v*
+
+# Ignore node modules if testing locally
+node_modules/
+
+# Ignore Docker build context
+.dockerignore
+
+# Keep empty directories
+!.gitkeep
