@@ -13,7 +13,7 @@ This brief is intended to speed up focused bugfix sessions.
 
 ## Highest-Risk Areas
 
-- Home Assistant runtime validation has not yet been completed in a live HA environment.
+- Home Assistant runtime behavior can diverge from static validation, especially around add-on network mapping and auth prompts.
 - GHCR install success depends on image tag existence, package visibility, and `config.yaml` image path alignment.
 - Home Assistant add-on metadata uses static Web UI and watchdog port declarations, which limits safe support for a configurable internal service port.
 
@@ -50,3 +50,11 @@ This brief is intended to speed up focused bugfix sessions.
 3. Confirm whether the problem is runtime, manifest, or publishing related.
 4. Fix the smallest layer that resolves the issue.
 5. Re-run the relevant install/start/auth/persistence checks.
+
+## Minimum Regression Set
+
+1. Install and start add-on from repository.
+2. Validate `auth_mode=none`, `auth_mode=edit`, and `auth_mode=all`.
+3. Verify HTTP 401 behavior is expected for unauthenticated requests when auth is enabled.
+4. Verify host port mapping for `8080/tcp` (default and one remap).
+5. Verify persistence after restart.

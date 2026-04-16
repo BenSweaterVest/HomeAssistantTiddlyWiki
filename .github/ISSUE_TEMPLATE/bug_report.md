@@ -27,9 +27,11 @@ Steps to reproduce the behavior:
 ## Environment
 
 - **Home Assistant Version:** [e.g., 2024.11.1]
-- **Add-on Version:** [e.g., 1.0.1]
+- **Add-on Version:** [e.g., 1.0.2]
 - **Architecture:** [e.g., amd64, armv7, aarch64]
 - **Installation Method:** [e.g., Home Assistant OS, Supervised, Container]
+- **Auth Mode:** [none, edit, all]
+- **Port Mapping:** [default 8080, remapped, disabled]
 
 ## Configuration
 
@@ -58,6 +60,16 @@ Paste add-on logs here
 
 ```
 Paste relevant Home Assistant logs here
+```
+
+</details>
+
+<details>
+<summary>Supervisor Logs (required for install/pull failures)</summary>
+
+```
+Paste relevant Supervisor logs here
+(especially lines containing ghcr.io, denied, 401, 403, manifest, image, install)
 ```
 
 </details>

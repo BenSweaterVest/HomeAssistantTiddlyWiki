@@ -23,6 +23,7 @@ TiddlyWiki is a rich, interactive tool for manipulating complex data with struct
 - Persistent data across restarts and add-on updates.
 - Pinned TiddlyWiki runtime version for predictable behavior.
 - Health monitoring through Home Assistant watchdog.
+- Home Assistant ingress support for access through the HA UI.
 - Multi-architecture support for Home Assistant platforms.
 
 ## Installation
@@ -43,6 +44,7 @@ TiddlyWiki is a rich, interactive tool for manipulating complex data with struct
 4. Once installed, configure the add-on (see Configuration section below)
 5. Click **Start**
 6. Access your wiki via the **Open Web UI** button.
+7. Optional: use the Home Assistant sidebar/add-on ingress entry when remote access policy blocks direct host ports.
 
 ## Configuration
 
@@ -118,6 +120,16 @@ log_level: "info"
 - Confirm the add-on is running (green status)
 - Check your firewall settings
 - Verify the host port mapping for container port `8080`
+- If direct host access is restricted, open the add-on via Home Assistant ingress path instead.
+
+### HTTP 401 when auth mode is enabled
+- `auth_mode: "all"` requires login for both viewing and editing.
+- `auth_mode: "edit"` allows viewing without login, but editing requires login.
+- Some browsers show a generic error instead of a login prompt on HTTP 401.
+- Retry with explicit credentials in URL form (URL-encode special characters), for example: `http://username:password@host:port/`
+- Verify credentials with curl if needed:
+  - `curl -I http://host:port/` should return `401` without credentials
+  - `curl -I -u 'username:password' http://host:port/` should return non-401 when credentials are correct
 
 ### Changes not saving
 - Check add-on logs for error messages

@@ -33,7 +33,7 @@ Fixes #(issue)
 
 - Home Assistant version tested:
 - Architecture tested:
-- Authentication mode tested: anonymous / authenticated / both
+- Authentication mode tested: none / edit / all / multiple
 - Port mapping tested: default / remapped / not tested
 
 ## Screenshots (if appropriate)
@@ -52,6 +52,7 @@ Fixes #(issue)
 - [ ] My changes generate no new warnings or errors
 - [ ] I have checked my code and corrected any misspellings
 - [ ] I have noted any Home Assistant runtime validation gaps
+- [ ] I have tested or documented impact on auth modes (`none` / `edit` / `all`)
 
 ## Additional Notes
 

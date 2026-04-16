@@ -162,6 +162,8 @@ case "${AUTH_MODE}" in
         TIDDLYWIKI_CMD+=("readers=(anon)")
         TIDDLYWIKI_CMD+=("writers=(authenticated)")
         bashio::log.info "Auth mode 'edit' enabled for user: ${USERNAME}"
+        bashio::log.info "Read access is open; editing requires authentication"
+        bashio::log.info "If you see HTTP 401 in a browser, retry with credentials or use an authenticated URL format"
         ;;
     all)
         if [ -z "${USERNAME}" ] || [ -z "${PASSWORD}" ]; then
@@ -173,6 +175,8 @@ case "${AUTH_MODE}" in
         TIDDLYWIKI_CMD+=("readers=(authenticated)")
         TIDDLYWIKI_CMD+=("writers=(authenticated)")
         bashio::log.info "Auth mode 'all' enabled for user: ${USERNAME}"
+        bashio::log.info "Viewing and editing both require authentication"
+        bashio::log.info "If you see HTTP 401 in a browser, retry with credentials or use an authenticated URL format"
         ;;
     *)
         bashio::log.error "Unsupported auth_mode '${AUTH_MODE}'. Use one of: none, edit, all"

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Enabled Home Assistant ingress (`ingress: true`, `ingress_port: 8080`) for add-on access through HA UI routing.
+- Expanded operator troubleshooting and regression guidance for auth modes, port mapping, ingress, and log-signature triage.
+
 ## [1.0.2] - 2026-04-16
 
 ### Changed

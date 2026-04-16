@@ -25,6 +25,33 @@ This runbook is for maintainers operating the add-on repository and release proc
 - Wiki data persists across restart.
 - Host port remap works when changed in Home Assistant Network settings.
 
+## Runtime Regression Matrix
+
+Run this matrix before release when possible:
+
+- `auth_mode=none`: browse and edit without credentials.
+- `auth_mode=edit`: browse without credentials, verify edit/save is blocked until authenticated.
+- `auth_mode=all`: verify unauthenticated access returns HTTP 401 and authenticated access works.
+- Special-character password: verify with browser and `curl -u 'user:pass'`.
+- Port mapping: verify default `8080` and one remapped host port.
+- Ingress: verify add-on is reachable through Home Assistant ingress.
+- Persistence: create/update tiddler, restart add-on, confirm data remains.
+
+## Observability Quick Map
+
+Use these signatures to triage quickly:
+
+- **`Failed to get token from https://ghcr.io/token: 403`**
+  - GHCR package visibility or namespace/tag mismatch.
+- **`Can't install ghcr.io/... denied`**
+  - Wrong owner path, private package, or missing tag.
+- **`Auth mode 'edit' requires both username and password`**
+  - `auth_mode` set but credentials missing.
+- **`HTTP 401 Authentication required`**
+  - Expected when auth is enabled and request is unauthenticated.
+- **`Connection refused` on add-on port**
+  - Port mapping disabled or add-on not running.
+
 ## Rollback
 
 - Revert the failing change on `main`, or publish a patched release.
@@ -35,6 +62,7 @@ This runbook is for maintainers operating the add-on repository and release proc
 
 - The official add-on manifest points to the official GHCR namespace.
 - Forks that publish under a different owner must update `tiddlywiki/config.yaml` `image:` to match their own package namespace.
+- Home Assistant add-on manifests use a static `image:` field; fully automatic owner-dynamic install behavior is not supported for forks without manifest edits.
 
 ## Support Policy
 

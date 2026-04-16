@@ -17,6 +17,7 @@ If installation fails with GHCR permissions or image-tag errors, see `TROUBLESHO
 - Flexible authentication modes: no auth, auth-to-edit, or auth-to-view-and-edit.
 - Multi-architecture images (`amd64`, `aarch64`, `armhf`, `armv7`, `i386`).
 - Health monitoring through Home Assistant watchdog integration.
+- Authentication troubleshooting guidance is included in `tiddlywiki/README.md` for HTTP 401/browser prompt edge-cases.
 
 ## Port Behavior
 

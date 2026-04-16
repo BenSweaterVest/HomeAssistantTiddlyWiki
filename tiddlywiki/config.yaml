@@ -15,6 +15,9 @@ arch:
 init: false
 startup: services
 boot: auto
+# Home Assistant ingress support
+ingress: true
+ingress_port: 8080
 # Web UI configuration - provides "Open Web UI" button in HA
 webui: "http://[HOST]:[PORT:8080]"
 # Watchdog enables automatic restart on crash
