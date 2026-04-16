@@ -40,4 +40,4 @@ schema:
   log_level: "list(trace|debug|info|notice|warning|error|fatal)?"
 # Docker image reference for the official repository. Forks that publish to a
 # different GHCR namespace must update this path to match their own images.
-image: "ghcr.io/bensweetervest/{arch}-hassio-tiddlywiki"
+image: "ghcr.io/bensweatervest/{arch}-hassio-tiddlywiki"
