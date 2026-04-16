@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-04-16
+
+### Changed
+- Default host port mapping for `8080/tcp` is now enabled to reduce first-run setup friction.
+- Added `auth_mode` configuration with three access modes:
+  - `none`: no authentication needed
+  - `edit`: authentication required for writes only
+  - `all`: authentication required for reads and writes
+- Updated runtime auth logic and documentation to match the new auth mode model.
+
 ## [1.0.1] - 2026-04-16
 
 ### Changed
@@ -48,3 +58,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [1.0.0]: https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/releases/tag/v1.0.0
 [1.0.1]: https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/releases/tag/v1.0.1
+[1.0.2]: https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/releases/tag/v1.0.2

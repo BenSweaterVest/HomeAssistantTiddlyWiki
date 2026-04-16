@@ -1,6 +1,6 @@
 # TiddlyWiki Home Assistant Add-on Configuration
 name: TiddlyWiki
-version: "1.0.1"
+version: "1.0.2"
 slug: tiddlywiki
 description: "TiddlyWiki personal wiki system with server-side saving"
 url: "https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki"
@@ -21,7 +21,7 @@ webui: "http://[HOST]:[PORT:8080]"
 watchdog: "tcp://[HOST]:[PORT:8080]"
 # Port configuration
 ports:
-  8080/tcp: null
+  8080/tcp: 8080
 ports_description:
   8080/tcp: "TiddlyWiki web interface (host port configurable in Network settings)"
 # Directory mappings for data persistence
@@ -30,11 +30,13 @@ map:
   - "backup:rw"
 # Default configuration options
 options:
+  auth_mode: "none"
   username: ""
   password: ""
   log_level: "info"
 # Configuration schema with validation
 schema:
+  auth_mode: "list(none|edit|all)?"
   username: "str?"
   password: "password?"
   log_level: "list(trace|debug|info|notice|warning|error|fatal)?"

@@ -17,12 +17,13 @@ fi
 USERNAME=$(bashio::config 'username')
 PASSWORD=$(bashio::config 'password')
 LOG_LEVEL=$(bashio::config 'log_level')
+AUTH_MODE=$(bashio::config 'auth_mode')
 
 # Set log level
 bashio::log.level "${LOG_LEVEL}"
 
 bashio::log.info "Starting TiddlyWiki addon..."
-bashio::log.info "Configuration - Port: 8080 (container), Log Level: ${LOG_LEVEL}"
+bashio::log.info "Configuration - Port: 8080 (container), Auth Mode: ${AUTH_MODE}, Log Level: ${LOG_LEVEL}"
 
 # ------------------------------------------------------------------------------
 # Verify installation
@@ -143,18 +144,41 @@ TIDDLYWIKI_CMD+=("writers=(anon)")
 # ------------------------------------------------------------------------------
 # Configure authentication
 # ------------------------------------------------------------------------------
-# Enable auth only when both fields are populated in add-on options.
-if bashio::config.has_value 'username' && bashio::config.has_value 'password' && [ -n "${USERNAME}" ] && [ -n "${PASSWORD}" ]; then
-    # Enable authentication - only authenticated users can read/write
-    TIDDLYWIKI_CMD+=("username=${USERNAME}")
-    TIDDLYWIKI_CMD+=("password=${PASSWORD}")
-    TIDDLYWIKI_CMD+=("readers=(authenticated)")
-    TIDDLYWIKI_CMD+=("writers=(authenticated)")
-    bashio::log.info "Authentication enabled for user: ${USERNAME}"
-else
-    # No authentication - open access (suitable for trusted networks only)
-    bashio::log.warning "Running without authentication - anyone on your network can access and edit"
-fi
+# Authentication modes:
+# - none: open read/write access (trusted networks only)
+# - edit: open read access, authenticated write access
+# - all: authenticated read/write access
+case "${AUTH_MODE}" in
+    none)
+        bashio::log.warning "Auth mode 'none': anyone on your network can access and edit"
+        ;;
+    edit)
+        if [ -z "${USERNAME}" ] || [ -z "${PASSWORD}" ]; then
+            bashio::log.error "Auth mode 'edit' requires both username and password"
+            exit 1
+        fi
+        TIDDLYWIKI_CMD+=("username=${USERNAME}")
+        TIDDLYWIKI_CMD+=("password=${PASSWORD}")
+        TIDDLYWIKI_CMD+=("readers=(anon)")
+        TIDDLYWIKI_CMD+=("writers=(authenticated)")
+        bashio::log.info "Auth mode 'edit' enabled for user: ${USERNAME}"
+        ;;
+    all)
+        if [ -z "${USERNAME}" ] || [ -z "${PASSWORD}" ]; then
+            bashio::log.error "Auth mode 'all' requires both username and password"
+            exit 1
+        fi
+        TIDDLYWIKI_CMD+=("username=${USERNAME}")
+        TIDDLYWIKI_CMD+=("password=${PASSWORD}")
+        TIDDLYWIKI_CMD+=("readers=(authenticated)")
+        TIDDLYWIKI_CMD+=("writers=(authenticated)")
+        bashio::log.info "Auth mode 'all' enabled for user: ${USERNAME}"
+        ;;
+    *)
+        bashio::log.error "Unsupported auth_mode '${AUTH_MODE}'. Use one of: none, edit, all"
+        exit 1
+        ;;
+esac
 
 # ------------------------------------------------------------------------------
 # Configure logging

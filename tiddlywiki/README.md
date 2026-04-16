@@ -12,7 +12,7 @@ A Home Assistant add-on that runs TiddlyWiki as a web server, providing a person
 
 TiddlyWiki is a rich, interactive tool for manipulating complex data with structure that doesn't easily fit into conventional tools like spreadsheets or wordprocessors. This add-on runs TiddlyWiki in server mode, allowing multiple users to access and edit the wiki simultaneously with automatic saving.
 
-**Version:** 1.0.1
+**Version:** 1.0.2
 **TiddlyWiki Version:** 5.3.6 (pinned for reproducible builds)
 **Base Image:** Home Assistant Alpine 3.20
 
@@ -54,21 +54,32 @@ Note: although TiddlyWiki itself can listen on other ports, Home Assistant add-o
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `username` | string | `""` | Username for authentication. Leave empty to disable auth. |
-| `password` | password | `""` | Password for authentication. Leave empty to disable auth. |
+| `auth_mode` | list | `"none"` | Access mode: `none` (no auth), `edit` (auth required to edit), `all` (auth required to view/edit). |
+| `username` | string | `""` | Username used for `edit` and `all` auth modes. |
+| `password` | password | `""` | Password used for `edit` and `all` auth modes. |
 | `log_level` | list | `"info"` | Logging level: trace, debug, info, notice, warning, error, fatal. |
 
 ### Example Configuration
 
 **No Authentication (Default):**
 ```yaml
+auth_mode: "none"
 username: ""
 password: ""
 log_level: "info"
 ```
 
-**With Authentication:**
+**Authentication Required to Edit (Read is open):**
 ```yaml
+auth_mode: "edit"
+username: "admin"
+password: "your-secure-password"
+log_level: "info"
+```
+
+**Authentication Required to View and Edit:**
+```yaml
+auth_mode: "all"
 username: "admin"
 password: "your-secure-password"
 log_level: "info"
@@ -150,7 +161,7 @@ TiddlyWiki always listens on container port `8080`, but you can change the host-
 
 1. Open the add-on page in Home Assistant
 2. Go to **Configuration** -> **Network**
-3. Change the host port mapping for container port `8080`
+3. Change the host port mapping for container port `8080` (default host mapping is already enabled)
 4. Restart the add-on
 5. Access TiddlyWiki on the new host port
 
@@ -158,7 +169,11 @@ TiddlyWiki always listens on container port `8080`, but you can change the host-
 
 ### Can I use this without authentication?
 
-Yes! By default, the add-on runs without authentication. However, this should **only be used on trusted home networks**. Anyone with network access can read and edit your wiki. For additional security, enable authentication in the configuration.
+Yes. Set `auth_mode: "none"` to allow open read/write access. This should only be used on trusted home networks.
+
+Other options are:
+- `auth_mode: "edit"`: anyone can read, authentication is required to edit
+- `auth_mode: "all"`: authentication is required to view and edit
 
 ### How do I backup my wiki?
 

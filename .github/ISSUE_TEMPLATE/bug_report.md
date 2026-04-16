@@ -35,6 +35,7 @@ Steps to reproduce the behavior:
 
 ```yaml
 # Your add-on configuration (remove sensitive data)
+auth_mode: "none"
 username: ""
 password: ""
 log_level: "info"

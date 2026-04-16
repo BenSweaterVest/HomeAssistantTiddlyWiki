@@ -26,6 +26,8 @@ require_regex(r'exec\s+"\$\{TIDDLYWIKI_CMD\[@\]\}"', RUN_SH, "run.sh must exec T
 require_regex(r"command -v tiddlywiki", RUN_SH, "run.sh must verify tiddlywiki exists before use")
 require('webui: "http://[HOST]:[PORT:8080]"', CONFIG_YAML, "config.yaml must declare Web UI on container port 8080")
 require('watchdog: "tcp://[HOST]:[PORT:8080]"', CONFIG_YAML, "config.yaml must declare watchdog on container port 8080")
+require('auth_mode: "none"', CONFIG_YAML, "config.yaml must define default auth_mode")
+require('auth_mode: "list(none|edit|all)?"', CONFIG_YAML, "config.yaml must define auth_mode schema")
 
 if "hassio_api:" in CONFIG_YAML:
     print("FAIL: config.yaml should not request Home Assistant API access unless it is used")

@@ -14,13 +14,13 @@ If installation fails with GHCR permissions or image-tag errors, see `TROUBLESHO
 ## Key Features
 
 - Server-side saving with persistent `/data/wiki` storage.
-- Optional username/password authentication.
+- Flexible authentication modes: no auth, auth-to-edit, or auth-to-view-and-edit.
 - Multi-architecture images (`amd64`, `aarch64`, `armhf`, `armv7`, `i386`).
 - Health monitoring through Home Assistant watchdog integration.
 
 ## Port Behavior
 
-The container listens on internal port `8080`.  
+The container listens on internal port `8080`, and the add-on exposes host port `8080` by default.  
 If you need a different external port, change the host mapping in the add-on **Configuration -> Network** page.
 
 Home Assistant add-on manifests define static port mappings for `webui` and watchdog behavior. Because of that, this project currently treats the internal service port as fixed even though the runtime itself could listen elsewhere.
