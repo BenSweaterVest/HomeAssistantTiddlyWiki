@@ -12,19 +12,18 @@ A Home Assistant add-on that runs TiddlyWiki as a web server, providing a person
 
 TiddlyWiki is a rich, interactive tool for manipulating complex data with structure that doesn't easily fit into conventional tools like spreadsheets or wordprocessors. This add-on runs TiddlyWiki in server mode, allowing multiple users to access and edit the wiki simultaneously with automatic saving.
 
-**Version:** 1.0.0
-**TiddlyWiki Version:** Latest stable (auto-updated on rebuild)
+**Version:** 1.0.1
+**TiddlyWiki Version:** 5.3.6 (pinned for reproducible builds)
 **Base Image:** Home Assistant Alpine 3.20
 
 ## Features
 
-- ✅ **Server-side saving**: All changes automatically saved to disk
-- ✅ **No authentication required**: Perfect for trusted home networks  
-- ✅ **Persistent data**: Survives container restarts and updates
-- ✅ **Latest TiddlyWiki**: Always runs the most recent stable version
-- ✅ **Optional authentication**: Can be enabled for security
-- ✅ **Health monitoring**: Integrated with Home Assistant monitoring
-- ✅ **Multi-architecture**: Supports all Home Assistant platforms
+- Server-side saving: all changes are written to disk.
+- Optional authentication using username/password.
+- Persistent data across restarts and add-on updates.
+- Pinned TiddlyWiki runtime version for predictable behavior.
+- Health monitoring through Home Assistant watchdog.
+- Multi-architecture support for Home Assistant platforms.
 
 ## Installation
 
@@ -43,26 +42,26 @@ TiddlyWiki is a rich, interactive tool for manipulating complex data with struct
 3. Click **Install** (this may take a few minutes)
 4. Once installed, configure the add-on (see Configuration section below)
 5. Click **Start**
-6. Access your wiki at `http://homeassistant.local:8080` (or your configured port)
+6. Access your wiki via the **Open Web UI** button.
 
 ## Configuration
 
 Add-on configuration is done through the Home Assistant UI. Go to the add-on page and click the **Configuration** tab.
 
+Note: although TiddlyWiki itself can listen on other ports, Home Assistant add-on metadata uses static port declarations for the Web UI button and watchdog checks. This add-on therefore treats container port `8080` as fixed and expects host-side remapping through Home Assistant Network settings.
+
 ### Configuration Options
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `port` | integer | `8080` | Port for the web interface |
-| `username` | string | `""` (empty) | Username for authentication (leave empty to disable) |
-| `password` | password | `""` (empty) | Password for authentication (leave empty to disable) |
-| `log_level` | list | `"info"` | Logging level: trace, debug, info, notice, warning, error, fatal |
+| `username` | string | `""` | Username for authentication. Leave empty to disable auth. |
+| `password` | password | `""` | Password for authentication. Leave empty to disable auth. |
+| `log_level` | list | `"info"` | Logging level: trace, debug, info, notice, warning, error, fatal. |
 
 ### Example Configuration
 
 **No Authentication (Default):**
 ```yaml
-port: 8080
 username: ""
 password: ""
 log_level: "info"
@@ -70,7 +69,6 @@ log_level: "info"
 
 **With Authentication:**
 ```yaml
-port: 8080
 username: "admin"
 password: "your-secure-password"
 log_level: "info"
@@ -79,7 +77,7 @@ log_level: "info"
 ## Usage
 
 1. Start the add-on from the Home Assistant interface
-2. Navigate to `http://homeassistant.local:8080` (or your custom port)
+2. Open **Web UI** from the add-on page, or browse to your Home Assistant host and mapped port.
 3. Begin creating tiddlers - all changes save automatically
 4. Access from any device on your network
 
@@ -102,13 +100,13 @@ log_level: "info"
 
 ### Add-on won't start
 - Check the logs in the add-on interface
-- Ensure the configured port isn't in use
+- Ensure the mapped host port is not in use
 - Verify Home Assistant has sufficient resources
 
 ### Can't access the wiki
 - Confirm the add-on is running (green status)
 - Check your firewall settings
-- Try accessing via IP: `http://[ha-ip-address]:8080`
+- Verify the host port mapping for container port `8080`
 
 ### Changes not saving
 - Check add-on logs for error messages
@@ -148,12 +146,13 @@ To install additional plugins:
 
 ### Changing the Port
 
-If port 8080 conflicts with another service:
+TiddlyWiki always listens on container port `8080`, but you can change the host-facing port:
 
-1. Go to add-on Configuration tab
-2. Change the `port` value (e.g., `8888`)
-3. Restart the add-on
-4. Access at the new port
+1. Open the add-on page in Home Assistant
+2. Go to **Configuration** -> **Network**
+3. Change the host port mapping for container port `8080`
+4. Restart the add-on
+5. Access TiddlyWiki on the new host port
 
 ## Frequently Asked Questions
 
@@ -178,10 +177,7 @@ All plugin installations are automatically saved and persist across restarts.
 
 ### What happens if I change the port?
 
-The watchdog will automatically monitor the new port after you restart the add-on. Simply:
-1. Update the `port` setting in the Configuration tab
-2. Restart the add-on
-3. Access TiddlyWiki at the new port
+The add-on exposes container port `8080`. If you remap it in **Network** settings, Home Assistant will open the add-on at the remapped host port after restart.
 
 The "Open Web UI" button in Home Assistant will also update automatically.
 
@@ -207,11 +203,11 @@ Currently, this add-on runs a single wiki instance. If you need multiple wikis, 
 
 | Feature | This Add-on | File-based TiddlyWiki |
 |---------|-------------|----------------------|
-| Server-side saving | ✅ Automatic | ❌ Manual save required |
-| Multi-user access | ✅ Simultaneous editing | ❌ One at a time |
-| Backup integration | ✅ Automatic with HA | ⚠️ Manual |
-| Setup complexity | ✅ One-click install | ⚠️ Manual configuration |
-| Performance | ✅ Fast server-side | ⚠️ Browser-dependent |
+| Server-side saving | Automatic | Manual save required |
+| Multi-user access | Simultaneous editing | One at a time |
+| Backup integration | Automatic with Home Assistant backups | Manual |
+| Setup complexity | One-click install | Manual configuration |
+| Performance | Fast server-side | Browser-dependent |
 
 ### How much disk space does it need?
 
@@ -224,11 +220,14 @@ Monitor your disk usage in Home Assistant's System settings.
 
 ## Support
 
-For issues, feature requests, and contributions:
-- 🐛 [Report bugs](https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/issues)
-- 💡 [Request features](https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/issues)
-- 🏠 [Home Assistant Community](https://community.home-assistant.io/)
-- 📖 [TiddlyWiki Documentation](https://tiddlywiki.com/)
+For issues and requests:
+- [GitHub Issues](https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/issues)
+- [Home Assistant Community](https://community.home-assistant.io/)
+- [TiddlyWiki Documentation](https://tiddlywiki.com/)
+
+Support target:
+- Home Assistant latest release and previous minor train
+- Best-effort validation across supported CPU architectures
 
 ## License
 

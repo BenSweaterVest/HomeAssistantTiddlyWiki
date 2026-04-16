@@ -4,12 +4,16 @@
 # Runs TiddlyWiki server with server-side saving
 # ==============================================================================
 # shellcheck shell=bash
-set -e
+set -eu
+
+# Enable pipefail when supported by the shell.
+if (set -o pipefail 2>/dev/null); then
+    set -o pipefail
+fi
 
 # ------------------------------------------------------------------------------
-# Load configuration from Home Assistant
+# Load Home Assistant-managed options used by this script.
 # ------------------------------------------------------------------------------
-PORT=$(bashio::config 'port')
 USERNAME=$(bashio::config 'username')
 PASSWORD=$(bashio::config 'password')
 LOG_LEVEL=$(bashio::config 'log_level')
@@ -18,14 +22,27 @@ LOG_LEVEL=$(bashio::config 'log_level')
 bashio::log.level "${LOG_LEVEL}"
 
 bashio::log.info "Starting TiddlyWiki addon..."
-bashio::log.info "Configuration - Port: ${PORT}, Log Level: ${LOG_LEVEL}"
+bashio::log.info "Configuration - Port: 8080 (container), Log Level: ${LOG_LEVEL}"
+
+# ------------------------------------------------------------------------------
+# Verify installation
+# ------------------------------------------------------------------------------
+# Verify TiddlyWiki installation before any initialization path uses it.
+if ! command -v tiddlywiki >/dev/null 2>&1; then
+    bashio::log.error "TiddlyWiki is not installed or not in PATH"
+    exit 1
+fi
 
 # ------------------------------------------------------------------------------
 # Prepare data directory
 # ------------------------------------------------------------------------------
-# Ensure data directory exists with proper permissions
+# Ensure data directory exists with expected base permissions.
 mkdir -p /data/wiki
-chown -R root:root /data/wiki
+# Avoid recursive ownership scans on every boot; only correct when parent owner drifts.
+if [ "$(stat -c '%u:%g' /data/wiki)" != "0:0" ]; then
+    bashio::log.info "Correcting /data/wiki ownership to root:root"
+    chown root:root /data/wiki
+fi
 chmod 755 /data/wiki
 
 # ------------------------------------------------------------------------------
@@ -43,7 +60,7 @@ if [ ! -f "/data/wiki/tiddlywiki.info" ]; then
     
     # Create enhanced tiddlywiki.info with useful plugins
     bashio::log.info "Configuring wiki with recommended plugins..."
-    cat > /data/wiki/tiddlywiki.info << 'EOF'
+    if ! cat > /data/wiki/tiddlywiki.info << 'EOF'
 {
 	"description": "TiddlyWiki for Home Assistant",
 	"plugins": [
@@ -70,10 +87,14 @@ if [ ! -f "/data/wiki/tiddlywiki.info" ]; then
 	}
 }
 EOF
+    then
+        bashio::log.error "Failed to write /data/wiki/tiddlywiki.info"
+        exit 1
+    fi
 
     # Create a welcome tiddler
     mkdir -p "/data/wiki/tiddlers"
-    cat > "/data/wiki/tiddlers/Welcome.tid" << 'EOF'
+    if ! cat > "/data/wiki/tiddlers/Welcome.tid" << 'EOF'
 created: 20240101120000000
 modified: 20240101120000000
 tags: 
@@ -98,6 +119,10 @@ This TiddlyWiki is running as a Home Assistant addon with server-side saving ena
 
 //Happy tiddling!//
 EOF
+    then
+        bashio::log.error "Failed to write /data/wiki/tiddlers/Welcome.tid"
+        exit 1
+    fi
 
     bashio::log.info "Wiki initialized successfully with welcome content"
 else
@@ -105,34 +130,26 @@ else
 fi
 
 # ------------------------------------------------------------------------------
-# Verify installation
-# ------------------------------------------------------------------------------
-# Verify TiddlyWiki installation
-if ! command -v tiddlywiki >/dev/null 2>&1; then
-    bashio::log.error "TiddlyWiki is not installed or not in PATH"
-    exit 1
-fi
-
-# ------------------------------------------------------------------------------
 # Build TiddlyWiki server command
 # ------------------------------------------------------------------------------
-# Build TiddlyWiki command
-TIDDLYWIKI_CMD="tiddlywiki /data/wiki --listen"
-TIDDLYWIKI_CMD="${TIDDLYWIKI_CMD} port=${PORT}"
-TIDDLYWIKI_CMD="${TIDDLYWIKI_CMD} host=0.0.0.0"
+# Build `tiddlywiki --listen` as an argument array to preserve credential escaping.
+TIDDLYWIKI_CMD=(tiddlywiki /data/wiki --listen)
+TIDDLYWIKI_CMD+=(port=8080)
+TIDDLYWIKI_CMD+=(host=0.0.0.0)
 # Default to anonymous access (will be overridden if auth is enabled)
-TIDDLYWIKI_CMD="${TIDDLYWIKI_CMD} readers=(anon)"
-TIDDLYWIKI_CMD="${TIDDLYWIKI_CMD} writers=(anon)"
+TIDDLYWIKI_CMD+=("readers=(anon)")
+TIDDLYWIKI_CMD+=("writers=(anon)")
 
 # ------------------------------------------------------------------------------
 # Configure authentication
 # ------------------------------------------------------------------------------
-# Add authentication if both username and password are configured
+# Enable auth only when both fields are populated in add-on options.
 if bashio::config.has_value 'username' && bashio::config.has_value 'password' && [ -n "${USERNAME}" ] && [ -n "${PASSWORD}" ]; then
     # Enable authentication - only authenticated users can read/write
-    TIDDLYWIKI_CMD="${TIDDLYWIKI_CMD} username=${USERNAME} password=${PASSWORD}"
-    TIDDLYWIKI_CMD="${TIDDLYWIKI_CMD} readers=(authenticated)"
-    TIDDLYWIKI_CMD="${TIDDLYWIKI_CMD} writers=(authenticated)"
+    TIDDLYWIKI_CMD+=("username=${USERNAME}")
+    TIDDLYWIKI_CMD+=("password=${PASSWORD}")
+    TIDDLYWIKI_CMD+=("readers=(authenticated)")
+    TIDDLYWIKI_CMD+=("writers=(authenticated)")
     bashio::log.info "Authentication enabled for user: ${USERNAME}"
 else
     # No authentication - open access (suitable for trusted networks only)
@@ -142,10 +159,10 @@ fi
 # ------------------------------------------------------------------------------
 # Configure logging
 # ------------------------------------------------------------------------------
-# Add verbose logging for debug levels
+# Map add-on debug/trace to verbose TiddlyWiki runtime logging.
 if bashio::config.equals 'log_level' 'debug' || bashio::config.equals 'log_level' 'trace'; then
     # Enable TiddlyWiki verbose logging for debugging
-    TIDDLYWIKI_CMD="${TIDDLYWIKI_CMD} debug-level=verbose"
+    TIDDLYWIKI_CMD+=("debug-level=verbose")
     bashio::log.debug "Verbose logging enabled"
 fi
 
@@ -154,14 +171,25 @@ fi
 # ------------------------------------------------------------------------------
 # Log startup information
 bashio::log.info "Starting TiddlyWiki server..."
-bashio::log.info "Listening on: 0.0.0.0:${PORT}"
+bashio::log.info "Listening on: 0.0.0.0:8080"
 bashio::log.info "Data directory: /data/wiki/"
-bashio::log.info "Access URL: http://homeassistant.local:${PORT}"
+bashio::log.info "Access URL: use Home Assistant 'Open Web UI' or configured host port mapping"
 
 # Add a small delay to ensure logging is visible
 sleep 1
 
 # Start TiddlyWiki with error handling
 # Note: exec replaces the shell process with TiddlyWiki for proper signal handling
-bashio::log.info "Executing: ${TIDDLYWIKI_CMD}"
-exec ${TIDDLYWIKI_CMD}
+# Build a redacted command view for logs (never expose password values).
+LOG_CMD=()
+for arg in "${TIDDLYWIKI_CMD[@]}"; do
+    if [[ "${arg}" == password=* ]]; then
+        LOG_CMD+=("password=***REDACTED***")
+    else
+        LOG_CMD+=("${arg}")
+    fi
+done
+
+bashio::log.info "Executing: ${LOG_CMD[*]}"
+bashio::log.debug "Command args: ${LOG_CMD[*]}"
+exec "${TIDDLYWIKI_CMD[@]}"

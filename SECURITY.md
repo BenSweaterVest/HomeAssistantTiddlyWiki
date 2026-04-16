@@ -2,16 +2,16 @@
 
 ## Supported Versions
 
-We provide security updates for the following versions:
+Security updates are provided on a best-effort basis for the latest supported Home Assistant release and the previous minor train.
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 1.0.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| 1.0.x   | Yes |
+| < 1.0   | No  |
 
 ## Reporting a Vulnerability
 
-**Please do not report security vulnerabilities through public GitHub issues.**
+Do not report vulnerabilities through public GitHub issues.
 
 Instead, please report them via one of the following methods:
 
@@ -27,13 +27,9 @@ Include:
 
 ### What to Expect
 
-- **Initial Response:** Within 48 hours
-- **Status Update:** Within 7 days
-- **Fix Timeline:** Depends on severity
-  - Critical: 1-3 days
-  - High: 1-2 weeks
-  - Medium: 2-4 weeks
-  - Low: Next release cycle
+- Initial response: within 48 hours
+- Status update: within 7 days
+- Fix timeline depends on severity
 
 ## Security Best Practices for Users
 
@@ -91,7 +87,7 @@ password: "strong-secure-password-here"
 
 ### Port Exposure
 
-**Risk:** Port 8080 (or configured port) is exposed on your network
+**Risk:** The add-on service port is exposed on your network through Home Assistant port mapping
 
 **Mitigation:**
 - Use firewall rules to limit access
@@ -111,20 +107,19 @@ password: "strong-secure-password-here"
 
 ### Built-in Security
 
-✅ **Optional Authentication** - HTTP Basic Auth support
-✅ **Input Validation** - Configuration schema validation
-✅ **No Hardcoded Secrets** - All credentials via configuration
-✅ **Minimal Base Image** - Alpine Linux for reduced attack surface
-✅ **Read-only Root** - Except /data directory
-✅ **No Unnecessary Services** - Only TiddlyWiki runs
+- Optional HTTP authentication support
+- Configuration schema validation
+- No hardcoded credentials
+- Minimal base image footprint
+- No privileged container mode
+- No unnecessary Home Assistant API permission requests
 
-### What We Don't Do
+### What We Avoid
 
-❌ Store passwords in plain text (handled by HA)
-❌ Run as privileged container
-❌ Expose unnecessary ports
-❌ Include unnecessary packages
-❌ Auto-upgrade without user consent
+- Storing plaintext passwords in repository files
+- Privileged container runtime
+- Exposing ports beyond the add-on service port
+- Unpinned, unreviewed runtime upgrades
 
 ## Disclosure Policy
 
@@ -179,10 +174,4 @@ Security advisories will be published at:
 - **Project Issues:** https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/issues
 - **GitHub Security:** https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki/security
 
-## Thank You
-
-We appreciate the security research community's efforts to help keep this project safe!
-
----
-
-**Last Updated:** 2024-11-14
+Last updated: 2026-04-16

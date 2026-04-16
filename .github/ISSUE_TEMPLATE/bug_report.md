@@ -27,7 +27,7 @@ Steps to reproduce the behavior:
 ## Environment
 
 - **Home Assistant Version:** [e.g., 2024.11.1]
-- **Add-on Version:** [e.g., 1.0.0]
+- **Add-on Version:** [e.g., 1.0.1]
 - **Architecture:** [e.g., amd64, armv7, aarch64]
 - **Installation Method:** [e.g., Home Assistant OS, Supervised, Container]
 
@@ -35,7 +35,6 @@ Steps to reproduce the behavior:
 
 ```yaml
 # Your add-on configuration (remove sensitive data)
-port: 8080
 username: ""
 password: ""
 log_level: "info"

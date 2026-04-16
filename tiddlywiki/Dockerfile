@@ -2,6 +2,7 @@
 ARG BUILD_FROM
 ARG BUILD_ARCH="amd64"
 ARG BUILD_VERSION="dev"
+ARG TIDDLYWIKI_VERSION="5.3.6"
 FROM $BUILD_FROM
 
 # Install Node.js and TiddlyWiki
@@ -10,7 +11,7 @@ RUN apk add --no-cache \
     npm \
     curl \
     bash \
-    && npm install -g tiddlywiki@latest \
+    && npm install -g "tiddlywiki@${TIDDLYWIKI_VERSION}" \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/* \
     && rm -rf ~/.npm
@@ -33,11 +34,10 @@ LABEL \
     io.hass.base.version="${BUILD_VERSION}" \
     io.hass.base.name="${BUILD_FROM}"
 
-# Note: We rely on Home Assistant's watchdog (configured in config.yaml) instead of
-# Docker's HEALTHCHECK because watchdog is more robust and can handle dynamic port
-# configuration. The watchdog monitors the TCP connection on the configured port.
+# We rely on Home Assistant's watchdog (configured in config.yaml) instead of
+# Docker HEALTHCHECK. The add-on service listens on container port 8080.
 
-# Expose default port (can be changed via configuration)
+# Expose service port (host-side mapping is configured in Home Assistant).
 EXPOSE 8080
 
 # Start the service

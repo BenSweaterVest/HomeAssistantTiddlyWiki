@@ -29,6 +29,13 @@ Fixes #(issue)
 - [ ] Tested locally in Home Assistant
 - [ ] Tested on multiple architectures (if applicable)
 
+## Environment Notes
+
+- Home Assistant version tested:
+- Architecture tested:
+- Authentication mode tested: anonymous / authenticated / both
+- Port mapping tested: default / remapped / not tested
+
 ## Screenshots (if appropriate)
 
 <!-- Add screenshots to help explain your changes -->
@@ -44,6 +51,7 @@ Fixes #(issue)
 - [ ] I have updated CHANGELOG.md with my changes
 - [ ] My changes generate no new warnings or errors
 - [ ] I have checked my code and corrected any misspellings
+- [ ] I have noted any Home Assistant runtime validation gaps
 
 ## Additional Notes
 
