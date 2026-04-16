@@ -32,9 +32,9 @@ Packages may default to private and must be public for unauthenticated pulls fro
 
 ## Release
 
-1. Create and push a version tag (for example `v1.0.1`).
+1. Create and push a version tag (for example `v1.0.3`).
 2. Publish a GitHub release with notes linked to `CHANGELOG.md`.
-3. Validate install on at least one Home Assistant instance before announcing release availability.
+3. Validate install on at least one Home Assistant instance before announcing release availability (see `OPERATIONS.md` for the full matrix).
 
 Releases are maintainer-owned and performed manually on an as-needed cadence.
 

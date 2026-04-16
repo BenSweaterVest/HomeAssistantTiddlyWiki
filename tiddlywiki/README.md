@@ -12,7 +12,7 @@ A Home Assistant add-on that runs TiddlyWiki as a web server, providing a person
 
 TiddlyWiki is a rich, interactive tool for manipulating complex data with structure that doesn't easily fit into conventional tools like spreadsheets or wordprocessors. This add-on runs TiddlyWiki in server mode, allowing multiple users to access and edit the wiki simultaneously with automatic saving.
 
-**Version:** 1.0.2
+**Version:** 1.0.3
 **TiddlyWiki Version:** 5.3.6 (pinned for reproducible builds)
 **Base Image:** Home Assistant Alpine 3.20
 

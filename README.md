@@ -26,6 +26,12 @@ If you need a different external port, change the host mapping in the add-on **C
 
 Home Assistant add-on manifests define static port mappings for `webui` and watchdog behavior. Because of that, this project currently treats the internal service port as fixed even though the runtime itself could listen elsewhere.
 
+## Ingress vs direct port
+
+**Default path:** use **Open Web UI** or the mapped host port (for example `http://<home-assistant-host>:8080/`). This is the primary access method for most setups.
+
+**Ingress:** the add-on supports Home Assistant ingress so you can open it from the HA sidebar when you prefer routing through Home Assistant instead of exposing the host port. Use whichever matches your network and security policy.
+
 ## Support Window
 
 This project is maintained on a best-effort basis.
@@ -40,6 +46,8 @@ This project is maintained on a best-effort basis.
 - Contributor workflow: `CONTRIBUTING.md`
 - Deployment process: `DEPLOYMENT_GUIDE.md`
 - Maintainer operations runbook: `OPERATIONS.md`
+- Bugfix session context: `BUGFIX_SESSION_BRIEF.md`
+- GHCR pull issues: `TROUBLESHOOTING_403.md`
 - Security reporting policy: `SECURITY.md`
 - Version history: `CHANGELOG.md`
 

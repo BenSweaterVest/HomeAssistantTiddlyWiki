@@ -27,7 +27,7 @@ Steps to reproduce the behavior:
 ## Environment
 
 - **Home Assistant Version:** [e.g., 2024.11.1]
-- **Add-on Version:** [e.g., 1.0.2]
+- **Add-on Version:** [e.g., 1.0.3]
 - **Architecture:** [e.g., amd64, armv7, aarch64]
 - **Installation Method:** [e.g., Home Assistant OS, Supervised, Container]
 - **Auth Mode:** [none, edit, all]

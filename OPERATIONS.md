@@ -68,3 +68,11 @@ Use these signatures to triage quickly:
 
 - Home Assistant support target: latest release and previous minor train.
 - CPU architecture coverage is best-effort across all declared architectures.
+
+## Last live validation (record)
+
+- **When:** 2026-04-16  
+- **Where:** Home Assistant OS test VM (`haos-test`, reachable at `192.168.122.122` on the validation network).  
+- **GHCR:** Public packages for all declared architectures; tags `latest` and release tags verified via GitHub Packages.  
+- **Auth matrix (HTTP):** `auth_mode=none` — unauthenticated GET not challenged with `401`; `auth_mode=edit` — anonymous read not blocked at HTTP layer (validated GET vs prior `all`); `auth_mode=all` — unauthenticated GET returns `401`, authenticated GET passes auth (observed non-`401`).  
+- **Not exercised in this pass (optional):** host port remap to a non-default value, explicit ingress sidebar open, persistence edit-after-restart, forced watchdog restart. Re-run those before a major release if you change networking or storage paths.

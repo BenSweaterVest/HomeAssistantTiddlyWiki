@@ -13,9 +13,18 @@ This brief is intended to speed up focused bugfix sessions.
 
 ## Highest-Risk Areas
 
-- Home Assistant runtime behavior can diverge from static validation, especially around add-on network mapping and auth prompts.
-- GHCR install success depends on image tag existence, package visibility, and `config.yaml` image path alignment.
+- Regression in `auth_mode` mapping to TiddlyWiki `readers` / `writers` (impacts who sees `401` and when).
+- GHCR install success depends on image tag existence, package visibility, and `config.yaml` `image:` alignment.
 - Home Assistant add-on metadata uses static Web UI and watchdog port declarations, which limits safe support for a configurable internal service port.
+
+## Last validation snapshot
+
+- 2026-04-16: Live HA instance used for `auth_mode` none / edit / all checks (see `OPERATIONS.md` **Last live validation**). CI still covers static/runtime contract and image smoke build.
+
+## Next session backlog
+
+- Add scripted or CI checks for auth behavior beyond `scripts/check_runtime_contract.py` (optional; see `CONTRIBUTING.md` verification list).
+- Optional release hardening: host port remap, ingress open from sidebar, persistence after restart, watchdog stop/start — repeat when networking or `run.sh` changes.
 
 ## Reproduction Targets
 

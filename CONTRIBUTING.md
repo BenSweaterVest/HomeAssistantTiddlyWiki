@@ -33,6 +33,7 @@ Contributions are welcome for bug fixes, documentation improvements, tests, and 
 - Runtime contract checks pass.
 - Documentation reflects behavior changes.
 - CI workflows remain green.
+- For behavior touching auth, ports, or ingress, note whether you validated on a real Home Assistant instance (see `OPERATIONS.md`).
 
 ## Commit Messages
 

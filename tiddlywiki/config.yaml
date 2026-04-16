@@ -1,6 +1,6 @@
 # TiddlyWiki Home Assistant Add-on Configuration
 name: TiddlyWiki
-version: "1.0.2"
+version: "1.0.3"
 slug: tiddlywiki
 description: "TiddlyWiki personal wiki system with server-side saving"
 url: "https://github.com/BenSweaterVest/HomeAssistantTiddlyWiki"
